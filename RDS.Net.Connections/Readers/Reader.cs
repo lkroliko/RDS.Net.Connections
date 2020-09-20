@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace RDS.Net.Connections.Readers
 {
-    public class Reader
+    class Reader : IReader
     {
         public event EventHandler<ReadedEventArgs> Readed = delegate { };
         internal virtual void OnReaded(ReadedEventArgs args) { Readed.Invoke(this, args); }
