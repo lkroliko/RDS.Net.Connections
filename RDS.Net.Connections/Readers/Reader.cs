@@ -10,9 +10,9 @@ namespace RDS.Net.Connections.Readers
     {
         public event EventHandler<ReadedEventArgs> Readed = delegate { };
         internal virtual void OnReaded(ReadedEventArgs args) { Readed.Invoke(this, args); }
-        IConnection _connection;
+        IConnectionHandler _connection;
 
-        internal Reader(IConnection connection)
+        internal Reader(IConnectionHandler connection)
         {
             _connection = connection;
         }

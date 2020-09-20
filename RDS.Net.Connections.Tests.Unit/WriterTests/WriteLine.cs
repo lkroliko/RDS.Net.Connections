@@ -11,7 +11,7 @@ namespace RDS.Net.Connections.Tests.Unit.WriterTests
     [Trait("Category", "Writer")]
     public class WriteLine
     {
-        IConnection _connection = Mock.Of<IConnection>();
+        IConnectionHandler _connection = Mock.Of<IConnectionHandler>();
         IStreamWriter _streamWriter = Mock.Of<IStreamWriter>();
         Writer _writer;
 

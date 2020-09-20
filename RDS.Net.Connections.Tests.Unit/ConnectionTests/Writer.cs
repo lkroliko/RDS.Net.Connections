@@ -8,31 +8,31 @@ using Xunit;
 
 namespace RDS.Net.Connections.Tests.Unit.ConnectionManagerTests
 {
-    [Trait("Category", "ConnectionManager")]
+    [Trait("Category", "Connection")]
     public class Writer
     {
-        IConnection _connection = Mock.Of<IConnection>();
+        IConnectionHandler _connectionHandler = Mock.Of<IConnectionHandler>();
         IReaderFactory _readerFactory = Mock.Of<IReaderFactory>();
         IWriterFactory _writerFactory = Mock.Of<IWriterFactory>();
         IWriter _writer = Mock.Of<IWriter>();
-        IConnectionManager _connectionManager;
+        Connection _connection;
 
         public Writer()
         {
-            Mock.Get(_writerFactory).Setup(f => f.Get(_connection)).Returns(_writer);
-            _connectionManager = new ConnectionManager(_connection, _readerFactory, _writerFactory);
+            Mock.Get(_writerFactory).Setup(f => f.Get(_connectionHandler)).Returns(_writer);
+            _connection = new Connection(_connectionHandler, _readerFactory, _writerFactory);
         }
 
         [Fact]
         public void ItExists()
         {
-            var reader = _connectionManager.Writer;
+            var reader = _connection.Writer;
         }
 
         [Fact]
         public void ItReturnsReader()
         {
-            var result = _connectionManager.Writer;
+            var result = _connection.Writer;
 
             Assert.Same(_writer, result);
         }
@@ -40,11 +40,11 @@ namespace RDS.Net.Connections.Tests.Unit.ConnectionManagerTests
         [Fact]
         public void ItCallReaderFactory()
         {
-            var result = _connectionManager.Writer;
-            result = _connectionManager.Writer;
-            result = _connectionManager.Writer;
+            var result = _connection.Writer;
+            result = _connection.Writer;
+            result = _connection.Writer;
 
-            Mock.Get(_writerFactory).Verify(f => f.Get(_connection), Times.Once);
+            Mock.Get(_writerFactory).Verify(f => f.Get(_connectionHandler), Times.Once);
         }
     }
 }

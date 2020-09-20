@@ -2,6 +2,6 @@
 {
     interface IWriterFactory
     {
-        IWriter Get(IConnection connection);
+        IWriter Get(IConnectionHandler connection);
     }
 }

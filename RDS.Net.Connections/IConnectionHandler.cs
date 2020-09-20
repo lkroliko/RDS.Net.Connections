@@ -3,7 +3,7 @@ using RDS.Net.Connections.Wrappers;
 
 namespace RDS.Net.Connections
 {
-    public interface IConnection
+    interface IConnectionHandler
     {
         IStreamReader GetStreamReader();
         IStreamWriter GetStreamWriter();

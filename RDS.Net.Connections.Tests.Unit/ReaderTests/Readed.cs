@@ -12,7 +12,7 @@ namespace RDS.Net.Connections.Tests.Unit.ReaderTests
     [Trait("Category", "Reader")]
     public class Readed
     {
-        IConnection _connection = Mock.Of<IConnection>();
+        IConnectionHandler _connection = Mock.Of<IConnectionHandler>();
         IStreamReader _streamReader = Mock.Of<IStreamReader>();
         Reader _reader;
         CancellationTokenSource _cancellationSource = new CancellationTokenSource();

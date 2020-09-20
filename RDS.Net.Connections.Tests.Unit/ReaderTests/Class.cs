@@ -11,7 +11,7 @@ namespace RDS.Net.Connections.Tests.Unit.ReaderTests
     [Trait("Category", "Reader")]
     public class Class
     {
-        IConnection _connection = Mock.Of<IConnection>();
+        IConnectionHandler _connection = Mock.Of<IConnectionHandler>();
 
         [Fact]
         public void ItExists()

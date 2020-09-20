@@ -9,33 +9,42 @@ using Xunit;
 namespace RDS.Net.Connections.Tests.Unit.ConnectionTests
 {
     [Trait("Category", "Connection")]
-    public class Connected
+    public class Reader
     {
         IConnectionHandler _connectionHandler = Mock.Of<IConnectionHandler>();
         IReaderFactory _readerFactory = Mock.Of<IReaderFactory>();
         IWriterFactory _writerFactory = Mock.Of<IWriterFactory>();
+        IReader _reader = Mock.Of<IReader>();
         Connection _connection;
 
-        public Connected()
+        public Reader()
         {
+            Mock.Get(_readerFactory).Setup(f => f.Get(_connectionHandler)).Returns(_reader);
             _connection = new Connection(_connectionHandler, _readerFactory, _writerFactory);
         }
 
         [Fact]
         public void ItExists()
         {
-           _connection.Connected += delegate { };
+            var reader = _connection.Reader;
         }
 
         [Fact]
-        public void WhenConnectionHandlerConnectedRaisedThenEventConnectedCalled()
+        public void ItReturnsReader()
         {
-            int calledCount = 0;
-            _connection.Connected += (sender, args) => { calledCount++; };
+            var result = _connection.Reader;
 
-            Mock.Get(_connectionHandler).Raise(c => c.Connected += null, new EventArgs());
+            Assert.Same(_reader, result);
+        }
 
-            Assert.Equal(1, calledCount);
+        [Fact]
+        public void ItCallReaderFactory()
+        {
+            var result = _connection.Reader;
+            result = _connection.Reader;
+            result = _connection.Reader;
+
+            Mock.Get(_readerFactory).Verify(f => f.Get(_connectionHandler), Times.Once);
         }
     }
 }

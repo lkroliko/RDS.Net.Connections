@@ -2,6 +2,6 @@
 {
     interface IReaderFactory
     {
-        IReader Get(IConnection connection);
+        IReader Get(IConnectionHandler connection);
     }
 }

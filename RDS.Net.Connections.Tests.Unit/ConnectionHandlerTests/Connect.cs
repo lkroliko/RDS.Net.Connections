@@ -9,12 +9,12 @@ using RDS.Net.Connections.Proxies;
 using RDS.Net.Connections.Wrappers;
 using Xunit;
 
-namespace RDS.Net.Connections.Tests.Unit.ConnectionTests
+namespace RDS.Net.Connections.Tests.Unit.ConnectionHandlerTests
 {
-    [Trait("Category", "Connection")]
+    [Trait("Category", "ConnectionHandler")]
     public class Connect
     {
-        Connection _connection;
+        ConnectionHandler _connectionHandler;
         ILogger _logger = Mock.Of<ILogger>();
         IDateTime _dateTime = Mock.Of<IDateTime>();
         IThread _thread = Mock.Of<IThread>();
@@ -23,7 +23,7 @@ namespace RDS.Net.Connections.Tests.Unit.ConnectionTests
 
         public Connect()
         {
-            _connection = new Connection(_logger, _dateTime,_thread, _netClient, _reconnectTime);
+            _connectionHandler = new ConnectionHandler(_logger, _dateTime,_thread, _netClient, _reconnectTime);
         }
 
         [Fact]
@@ -31,7 +31,7 @@ namespace RDS.Net.Connections.Tests.Unit.ConnectionTests
         {
             Mock.Get(_netClient).Setup(c => c.IsConnected).Returns(true);
 
-            _connection.Connect();
+            _connectionHandler.Connect();
         }
 
         [Fact]
@@ -43,7 +43,7 @@ namespace RDS.Net.Connections.Tests.Unit.ConnectionTests
                 Mock.Get(_netClient).Setup(c => c.IsConnected).Returns(true);
             });
 
-            _connection.Connect();
+            _connectionHandler.Connect();
 
             Mock.Get(_netClient).Verify(c => c.Connect(), Times.Once);
         }
@@ -60,7 +60,7 @@ namespace RDS.Net.Connections.Tests.Unit.ConnectionTests
                     Mock.Get(_netClient).Setup(c => c.IsConnected).Returns(true);            
             });
 
-            _connection.Connect();
+            _connectionHandler.Connect();
 
             Mock.Get(_netClient).Verify(c => c.Connect(), Times.Exactly(3));
         }
@@ -70,7 +70,7 @@ namespace RDS.Net.Connections.Tests.Unit.ConnectionTests
         {
             Mock.Get(_netClient).Setup(c => c.IsConnected).Returns(true);
 
-            _connection.Connect();
+            _connectionHandler.Connect();
 
             Mock.Get(_netClient).Verify(c => c.Connect(), Times.Never);
         }
@@ -84,7 +84,7 @@ namespace RDS.Net.Connections.Tests.Unit.ConnectionTests
                 Mock.Get(_netClient).Setup(c => c.IsConnected).Returns(true);
             });
 
-            _connection.Connect();
+            _connectionHandler.Connect();
 
             Mock.Get(_logger).Verify(l => l.Information("Connected"), Times.Once);
         }
@@ -108,7 +108,7 @@ namespace RDS.Net.Connections.Tests.Unit.ConnectionTests
                 Mock.Get(_netClient).Setup(c => c.IsConnected).Returns(true);
             });
 
-            _connection.Connect();
+            _connectionHandler.Connect();
 
             Mock.Get(_logger).Verify(l => l.Debug("Unable to connect"), Times.Once);
         }
@@ -134,7 +134,7 @@ namespace RDS.Net.Connections.Tests.Unit.ConnectionTests
                 Mock.Get(_netClient).Setup(c => c.IsConnected).Returns(true);
             });
 
-            _connection.Connect();
+            _connectionHandler.Connect();
 
             Mock.Get(_logger).Verify(l => l.Information("Connected after {0}", "0 01:00:00"), Times.Once);
         }
@@ -158,7 +158,7 @@ namespace RDS.Net.Connections.Tests.Unit.ConnectionTests
                 Mock.Get(_netClient).Setup(c => c.IsConnected).Returns(true);
             });
 
-            _connection.Connect();
+            _connectionHandler.Connect();
 
             Mock.Get(_thread).Verify(t => t.Sleep(_reconnectTime), Times.Exactly(3));
         }
@@ -182,10 +182,10 @@ namespace RDS.Net.Connections.Tests.Unit.ConnectionTests
                 }
                 Mock.Get(_netClient).Setup(c => c.IsConnected).Returns(true);
             });
-            _connection.Connect();
+            _connectionHandler.Connect();
             Mock.Get(_netClient).Setup(c => c.IsConnected).Returns(false);
             
-            _connection.Connect();
+            _connectionHandler.Connect();
 
             Mock.Get(_logger).Verify(l => l.Warning("Disconnection detected"), Times.Once);
         }
@@ -201,9 +201,9 @@ namespace RDS.Net.Connections.Tests.Unit.ConnectionTests
             });
             List<Task> tasks = new List<Task>();
 
-            tasks.Add(Task.Run(() => _connection.Connect()));
-            tasks.Add(Task.Run(() => _connection.Connect()));
-            tasks.Add(Task.Run(() => _connection.Connect()));
+            tasks.Add(Task.Run(() => _connectionHandler.Connect()));
+            tasks.Add(Task.Run(() => _connectionHandler.Connect()));
+            tasks.Add(Task.Run(() => _connectionHandler.Connect()));
             Task.WaitAll(tasks.ToArray());
 
             Mock.Get(_netClient).Verify(c => c.Connect(), Times.Once);

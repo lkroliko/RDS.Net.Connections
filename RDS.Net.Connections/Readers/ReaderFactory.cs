@@ -6,7 +6,7 @@ namespace RDS.Net.Connections.Readers
 {
     class ReaderFactory : IReaderFactory
     {
-        public IReader Get(IConnection connection)
+        public IReader Get(IConnectionHandler connection)
         {
             return new Reader(connection);
         }

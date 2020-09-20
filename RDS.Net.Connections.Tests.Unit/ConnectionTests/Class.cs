@@ -1,10 +1,9 @@
-﻿using System;
+﻿using Moq;
+using RDS.Net.Connections.Readers;
+using RDS.Net.Connections.Writers;
+using System;
 using System.Collections.Generic;
 using System.Text;
-using Moq;
-using RDS.Logging;
-using RDS.Net.Connections.Proxies;
-using RDS.Net.Connections.Wrappers;
 using Xunit;
 
 namespace RDS.Net.Connections.Tests.Unit.ConnectionTests
@@ -12,22 +11,20 @@ namespace RDS.Net.Connections.Tests.Unit.ConnectionTests
     [Trait("Category", "Connection")]
     public class Class
     {
-        INetClientProxy _netClient = Mock.Of<INetClientProxy>();
-        IDateTime _dateTime = Mock.Of<IDateTime>();
-        IThread _thread = Mock.Of<IThread>();
-        ILogger _logger = Mock.Of<ILogger>();
-        int _reconnectTime = 1;
+        IConnectionHandler _connectionHandler = Mock.Of<IConnectionHandler>();
+        IReaderFactory _readerFactory = Mock.Of<IReaderFactory>();
+        IWriterFactory _writerFactory = Mock.Of<IWriterFactory>();
 
         [Fact]
         public void ItExists()
         {
-            new Connection(_logger, _dateTime, _thread, _netClient, _reconnectTime);
+            new Connection(_connectionHandler, _readerFactory, _writerFactory);
         }
 
         [Fact]
-        public void ItImplementIConnection()
+        public void ItImplementIConnectionManager()
         {
-            Assert.IsAssignableFrom<IConnection>(new Connection(_logger, _dateTime, _thread, _netClient, _reconnectTime));
+            Assert.IsAssignableFrom<IConnection>(new Connection(_connectionHandler, _readerFactory, _writerFactory));
         }
     }
 }

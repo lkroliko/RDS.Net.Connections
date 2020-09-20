@@ -8,10 +8,10 @@ namespace RDS.Net.Connections.Writers
 {
     class Writer : IWriter
     {
-        IConnection _connection;
+        IConnectionHandler _connection;
         IStreamWriter _streamWriter;
 
-        public Writer(IConnection connection)
+        public Writer(IConnectionHandler connection)
         {
             _connection = connection;
         }

@@ -10,7 +10,7 @@ namespace RDS.Net.Connections.Tests.Unit.WriterTests
     [Trait("Category", "Writer")]
     public class Class
     {
-        IConnection _connection = Mock.Of<IConnection>();
+        IConnectionHandler _connection = Mock.Of<IConnectionHandler>();
 
         [Fact]
         public void ItExists()
