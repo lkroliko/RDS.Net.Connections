@@ -20,6 +20,7 @@ namespace RDS.Net.Connections
         ILogger _logger;
         DateTime? _disconnectDateTime;
         DateTime? _connectDateTime;
+        object connectionLock = new object();
 
         public event EventHandler<EventArgs> Connected = delegate { };
         protected virtual void OnConnected(EventArgs e) { Connected.Invoke(this, e); }
@@ -69,23 +70,26 @@ namespace RDS.Net.Connections
 
         public void Connect()
         {
-            if (_netClient.IsConnected == false && _connectDateTime != null)
+            lock (connectionLock)
             {
-                _connectDateTime = null;
-                _logger.Warning("Disconnection detected");
-            }
-            while (_netClient.IsConnected == false)
-            {
-                try
+                if (_netClient.IsConnected == false && _connectDateTime != null)
                 {
-                    _netClient.Connect();
-                    LogConnected();
-                    OnConnected(new EventArgs());
+                    _connectDateTime = null;
+                    _logger.Warning("Disconnection detected");
                 }
-                catch
+                while (_netClient.IsConnected == false)
                 {
-                    LogNotConnected();
-                    _thread.Sleep(_millisecondsReconnectTime);
+                    try
+                    {
+                        _netClient.Connect();
+                        LogConnected();
+                        OnConnected(new EventArgs());
+                    }
+                    catch
+                    {
+                        LogNotConnected();
+                        _thread.Sleep(_millisecondsReconnectTime);
+                    }
                 }
             }
         }

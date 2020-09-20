@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using Moq;
 using RDS.Logging;
 using RDS.Net.Connections.Proxies;
@@ -186,6 +188,25 @@ namespace RDS.Net.Connections.Tests.Unit.ConnectionTests
             _connection.Connect();
 
             Mock.Get(_logger).Verify(l => l.Warning("Disconnection detected"), Times.Once);
+        }
+
+        [Fact]
+        public void WhenCalledFromManyTasksThenThenNetClientConnectCalled()
+        {
+            Mock.Get(_netClient).Setup(c => c.IsConnected).Returns(false);
+            Mock.Get(_netClient).Setup(c => c.Connect()).Callback(() =>
+            {
+                Thread.Sleep(50);
+                Mock.Get(_netClient).Setup(c => c.IsConnected).Returns(true);
+            });
+            List<Task> tasks = new List<Task>();
+
+            tasks.Add(Task.Run(() => _connection.Connect()));
+            tasks.Add(Task.Run(() => _connection.Connect()));
+            tasks.Add(Task.Run(() => _connection.Connect()));
+            Task.WaitAll(tasks.ToArray());
+
+            Mock.Get(_netClient).Verify(c => c.Connect(), Times.Once);
         }
     }
 }
