@@ -1,13 +1,13 @@
 ﻿using Moq;
-using RDS.Net.Connections.Writers;
+using RDS.Net.Connections.Senders;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using Xunit;
 
-namespace RDS.Net.Connections.Tests.Unit.WriterTests
+namespace RDS.Net.Connections.Tests.Unit.SenderTests
 {
-    [Trait("Category", "Writer")]
+    [Trait("Category", "Sender")]
     public class Class
     {
         IConnectionHandler _connection = Mock.Of<IConnectionHandler>();
@@ -15,13 +15,13 @@ namespace RDS.Net.Connections.Tests.Unit.WriterTests
         [Fact]
         public void ItExists()
         {
-            new Writer(_connection);
+            new Sender(_connection);
         }
 
         [Fact]
         public void ItImoplementsIWriter()
         {
-           Assert.IsAssignableFrom<IWriter>(new Writer(_connection));
+           Assert.IsAssignableFrom<ISender>(new Sender(_connection));
         }
     }
 }

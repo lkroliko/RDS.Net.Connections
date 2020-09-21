@@ -1,4 +1,4 @@
-﻿using RDS.Net.Connections.Readers;
+﻿using RDS.Net.Connections.Receivers;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -6,13 +6,13 @@ using Xunit;
 
 namespace RDS.Net.Connections.Tests.Unit.ReadedEventArgsTests
 {
-    [Trait("Category", "ReadedEventArgs")]
+    [Trait("Category", "ReceivedEventArgs")]
     public class Class
     {
         [Fact]
         public void ItExists()
         {
-            ReadedEventArgs args = new ReadedEventArgs("value");
+            ReceivedEventArgs args = new ReceivedEventArgs("value");
         }
     }
 }

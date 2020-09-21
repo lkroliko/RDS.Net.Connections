@@ -35,7 +35,7 @@ namespace RDS.Net.Connections.Pingers
         {
             while (token.IsCancellationRequested == false)
             {
-                _connection.Writer.WriteLine(_value);
+                _connection.Sender.WriteLine(_value);
                 _thread.Sleep(_milisecoundsInterval);
             }
         }

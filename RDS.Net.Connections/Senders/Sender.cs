@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 
-namespace RDS.Net.Connections.Writers
+namespace RDS.Net.Connections.Senders
 {
-    class Writer : IWriter
+    class Sender : ISender
     {
         IConnectionHandler _connection;
         IStreamWriter _streamWriter;
 
-        public Writer(IConnectionHandler connection)
+        public Sender(IConnectionHandler connection)
         {
             _connection = connection;
         }

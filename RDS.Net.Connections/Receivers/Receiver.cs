@@ -4,15 +4,15 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 
-namespace RDS.Net.Connections.Readers
+namespace RDS.Net.Connections.Receivers
 {
-    class Reader : IReader
+    class Receiver : IReceiver
     {
-        public event EventHandler<ReadedEventArgs> Readed = delegate { };
-        internal virtual void OnReaded(ReadedEventArgs args) { Readed.Invoke(this, args); }
+        public event EventHandler<ReceivedEventArgs> Received = delegate { };
+        internal virtual void OnReaded(ReceivedEventArgs args) { Received.Invoke(this, args); }
         IConnectionHandler _connection;
 
-        internal Reader(IConnectionHandler connection)
+        internal Receiver(IConnectionHandler connection)
         {
             _connection = connection;
         }
@@ -25,7 +25,7 @@ namespace RDS.Net.Connections.Readers
                 try
                 {
                     string value = streamReader.ReadLine();
-                    ReadedEventArgs args = new ReadedEventArgs(value);
+                    ReceivedEventArgs args = new ReceivedEventArgs(value);
                     OnReaded(args);
                 }
                 catch

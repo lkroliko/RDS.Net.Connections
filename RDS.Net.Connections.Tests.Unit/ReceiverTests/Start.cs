@@ -1,6 +1,6 @@
 ﻿using Castle.DynamicProxy.Contributors;
 using Moq;
-using RDS.Net.Connections.Readers;
+using RDS.Net.Connections.Receivers;
 using RDS.Net.Connections.Wrappers;
 using System;
 using System.Collections.Generic;
@@ -8,20 +8,20 @@ using System.Text;
 using System.Threading;
 using Xunit;
 
-namespace RDS.Net.Connections.Tests.Unit.ReaderTests
+namespace RDS.Net.Connections.Tests.Unit.ReceiverTests
 {
-    [Trait("Category", "Reader")]
+    [Trait("Category", "Receiver")]
     public class Start
     {
         IConnectionHandler _connection = Mock.Of<IConnectionHandler>();
         IStreamReader _streamReader = Mock.Of<IStreamReader>();
-        Reader _reader;
+        Receiver _receiver;
         CancellationTokenSource _cancellationSource = new CancellationTokenSource();
 
         public Start()
         {
             Mock.Get(_connection).Setup(c => c.GetStreamReader()).Returns(_streamReader);
-            _reader = new Reader(_connection);
+            _receiver = new Receiver(_connection);
         }
 
         [Fact]
@@ -33,7 +33,7 @@ namespace RDS.Net.Connections.Tests.Unit.ReaderTests
                 _cancellationSource.Cancel();
             });
 
-            _reader.Start(_cancellationSource.Token);
+            _receiver.Start(_cancellationSource.Token);
 
             Mock.Get(_connection).Verify(c => c.Connect(), Times.Once);
         }
@@ -48,7 +48,7 @@ namespace RDS.Net.Connections.Tests.Unit.ReaderTests
                 _cancellationSource.Cancel();
             }).Throws<Exception>();
 
-            _reader.Start(_cancellationSource.Token);
+            _receiver.Start(_cancellationSource.Token);
 
             Mock.Get(_connection).Verify(c => c.Connect(), Times.Once);
         }
@@ -61,7 +61,7 @@ namespace RDS.Net.Connections.Tests.Unit.ReaderTests
                 _cancellationSource.Cancel();
             }).Throws<Exception>();
 
-            _reader.Start(_cancellationSource.Token);
+            _receiver.Start(_cancellationSource.Token);
 
             Mock.Get(_connection).Verify(c => c.GetStreamReader(), Times.Exactly(2));
         }

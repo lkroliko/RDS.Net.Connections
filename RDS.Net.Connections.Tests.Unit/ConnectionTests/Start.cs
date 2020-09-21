@@ -1,6 +1,6 @@
 ﻿using Moq;
-using RDS.Net.Connections.Readers;
-using RDS.Net.Connections.Writers;
+using RDS.Net.Connections.Senders;
+using RDS.Net.Connections.Receivers;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -13,15 +13,15 @@ namespace RDS.Net.Connections.Tests.Unit.ConnectionTests
     public class Start
     {
         IConnectionHandler _connectionHandler = Mock.Of<IConnectionHandler>();
-        IReaderFactory _readerFactory = Mock.Of<IReaderFactory>();
-        IWriterFactory _writerFactory = Mock.Of<IWriterFactory>();
-        IWriter _writer = Mock.Of<IWriter>();
+        IReceiverFactory _receiverFactory = Mock.Of<IReceiverFactory>();
+        ISenderFactory _senderFactory = Mock.Of<ISenderFactory>();
+        ISender _sender = Mock.Of<ISender>();
         Connection _connection;
         CancellationTokenSource _tokenSource = new CancellationTokenSource();
 
         public Start()
         {
-            _connection = new Connection(_connectionHandler, _readerFactory, _writerFactory);
+            _connection = new Connection(_connectionHandler, _receiverFactory, _senderFactory);
         }
 
         [Fact]

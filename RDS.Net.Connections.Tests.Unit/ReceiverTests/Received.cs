@@ -1,5 +1,5 @@
 ﻿using Moq;
-using RDS.Net.Connections.Readers;
+using RDS.Net.Connections.Receivers;
 using RDS.Net.Connections.Wrappers;
 using System;
 using System.Collections.Generic;
@@ -9,25 +9,25 @@ using Xunit;
 
 namespace RDS.Net.Connections.Tests.Unit.ReaderTests
 {
-    [Trait("Category", "Reader")]
-    public class Readed
+    [Trait("Category", "Receiver")]
+    public class Received
     {
         IConnectionHandler _connection = Mock.Of<IConnectionHandler>();
         IStreamReader _streamReader = Mock.Of<IStreamReader>();
-        Reader _reader;
+        Receiver _receiver;
         CancellationTokenSource _cancellationSource = new CancellationTokenSource();
 
-        public Readed()
+        public Received()
         {
             Mock.Get(_connection).Setup(c => c.GetStreamReader()).Returns(_streamReader);
             Mock.Get(_connection).Setup(c => c.IsConnected).Returns(true);
-            _reader = new Reader(_connection);
+            _receiver = new Receiver(_connection);
         }
 
         [Fact]
         public void ItExists()
         {
-            _reader.Readed += delegate { };
+            _receiver.Received += delegate { };
         }
 
         [Fact]
@@ -39,9 +39,9 @@ namespace RDS.Net.Connections.Tests.Unit.ReaderTests
             {
                 _cancellationSource.Cancel();
             }).Returns(expected);
-            _reader.Readed += (sender, args) => { result = args.Value; };
+            _receiver.Received += (sender, args) => { result = args.Value; };
 
-            _reader.Start(_cancellationSource.Token);
+            _receiver.Start(_cancellationSource.Token);
 
             Assert.Same(expected, result);
         }
@@ -57,7 +57,7 @@ namespace RDS.Net.Connections.Tests.Unit.ReaderTests
                     _cancellationSource.Cancel();
             }).Returns("value");
 
-            _reader.Start(_cancellationSource.Token);
+            _receiver.Start(_cancellationSource.Token);
 
             Mock.Get(_streamReader).Verify(s => s.ReadLine(), Times.Exactly(3));
         }

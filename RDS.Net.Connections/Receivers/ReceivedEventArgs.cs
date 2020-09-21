@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace RDS.Net.Connections.Readers
+namespace RDS.Net.Connections.Receivers
 {
-    public class ReadedEventArgs : EventArgs
+    public class ReceivedEventArgs : EventArgs
     {
         public string Value { get; }
 
-        public ReadedEventArgs(string value)
+        public ReceivedEventArgs(string value)
         {
             Value = value;
         }

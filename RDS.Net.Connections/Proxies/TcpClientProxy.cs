@@ -21,7 +21,7 @@ namespace RDS.Net.Connections.Proxies
 
         public void Connect()
         {
-            _client = new TcpClient(_hostname, _port);
+            _client = new TcpClient(_hostname, _port) { NoDelay = true };
         }
 
         private bool GetIsConnected()

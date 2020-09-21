@@ -1,7 +1,7 @@
 ﻿using Moq;
 using RDS.Net.Connections.Pingers;
 using RDS.Net.Connections.Wrappers;
-using RDS.Net.Connections.Writers;
+using RDS.Net.Connections.Senders;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -14,7 +14,7 @@ namespace RDS.Net.Connections.Tests.Unit.PingerTests
     public class Start
     {
         IConnection _connection = Mock.Of<IConnection>();
-        IWriter _writer = Mock.Of<IWriter>();
+        ISender _sender = Mock.Of<ISender>();
         ITask _task = Mock.Of<ITask>();
         IThread _thread = Mock.Of<IThread>();
         string _value = "ping";
@@ -25,7 +25,7 @@ namespace RDS.Net.Connections.Tests.Unit.PingerTests
 
         public Start()
         {
-            Mock.Get(_connection).Setup(m => m.Writer).Returns(_writer);
+            Mock.Get(_connection).Setup(m => m.Sender).Returns(_sender);
             Mock.Get(_task).Setup(t => t.Run(It.IsAny<Action>())).Callback<Action>((action) => action.Invoke());
             _args = new ConnectionStartedEventArgs(_tokenSource.Token);
             _pinger = new Pinger(_task, _thread, _value, _milisecondsIntervalTime);
@@ -42,17 +42,17 @@ namespace RDS.Net.Connections.Tests.Unit.PingerTests
         [Fact]
         public void WhenCalledThenWriterWriteLineCalled()
         {
-            Mock.Get(_writer).Setup(w => w.WriteLine(_value)).Callback(() => _tokenSource.Cancel());
+            Mock.Get(_sender).Setup(w => w.WriteLine(_value)).Callback(() => _tokenSource.Cancel());
 
             _pinger.Start(_connection, _args);
 
-            Mock.Get(_writer).Verify(w => w.WriteLine(_value), Times.Once);
+            Mock.Get(_sender).Verify(w => w.WriteLine(_value), Times.Once);
         }
 
         [Fact]
         public void WhenCalledThenThreadSleepCalled()
         {
-            Mock.Get(_writer).Setup(w => w.WriteLine(_value)).Callback(() => _tokenSource.Cancel());
+            Mock.Get(_sender).Setup(w => w.WriteLine(_value)).Callback(() => _tokenSource.Cancel());
 
             _pinger.Start(_connection, _args);
 

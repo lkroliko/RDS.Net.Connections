@@ -1,19 +1,19 @@
 ﻿using Moq;
 using RDS.Net.Connections.Wrappers;
-using RDS.Net.Connections.Writers;
+using RDS.Net.Connections.Senders;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using Xunit;
 
-namespace RDS.Net.Connections.Tests.Unit.WriterTests
+namespace RDS.Net.Connections.Tests.Unit.SenderTests
 {
-    [Trait("Category", "Writer")]
+    [Trait("Category", "Sender")]
     public class WriteLine
     {
         IConnectionHandler _connection = Mock.Of<IConnectionHandler>();
         IStreamWriter _streamWriter = Mock.Of<IStreamWriter>();
-        Writer _writer;
+        Sender _sender;
 
         public WriteLine()
         {
@@ -22,13 +22,13 @@ namespace RDS.Net.Connections.Tests.Unit.WriterTests
                 Mock.Get(_connection).Setup(c => c.IsConnected).Returns(true);
             });
             Mock.Get(_connection).Setup(c => c.GetStreamWriter()).Returns(_streamWriter);
-            _writer = new Writer(_connection);
+            _sender = new Sender(_connection);
         }
 
         [Fact]
         public void WhenConnectionNotConnectedThenConnectCalled()
         {
-            _writer.WriteLine("value");
+            _sender.WriteLine("value");
 
             Mock.Get(_connection).Verify(c => c.Connect(), Times.Once);
         }
@@ -36,7 +36,7 @@ namespace RDS.Net.Connections.Tests.Unit.WriterTests
         [Fact]
         public void WhenCalledThenStreamWriterWriteLineCalled()
         {
-            _writer.WriteLine("value");
+            _sender.WriteLine("value");
 
             Mock.Get(_streamWriter).Verify(s => s.WriteLine("value"), Times.Once);
         }
@@ -44,7 +44,7 @@ namespace RDS.Net.Connections.Tests.Unit.WriterTests
         [Fact]
         public void WhenNoExceptionThenTrueReturned()
         {
-            var result = _writer.WriteLine("value");
+            var result = _sender.WriteLine("value");
 
             Assert.True(result);
         }
@@ -54,7 +54,7 @@ namespace RDS.Net.Connections.Tests.Unit.WriterTests
         {
             Mock.Get(_streamWriter).Setup(s => s.WriteLine(It.IsAny<string>())).Throws<Exception>();
 
-            var result = _writer.WriteLine("value");
+            var result = _sender.WriteLine("value");
 
             Assert.False(result);
         }

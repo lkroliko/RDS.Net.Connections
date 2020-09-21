@@ -1,5 +1,5 @@
-﻿using RDS.Net.Connections.Readers;
-using RDS.Net.Connections.Writers;
+﻿using RDS.Net.Connections.Senders;
+using RDS.Net.Connections.Receivers;
 using System;
 using System.Threading;
 
@@ -8,8 +8,8 @@ namespace RDS.Net.Connections
     public interface IConnection
     {
         bool IsConnected { get; }
-        IReader Reader { get; }
-        IWriter Writer { get; }
+        IReceiver Receiver { get; }
+        ISender Sender { get; }
         void Start(CancellationToken token);
         event EventHandler<EventArgs> Connected;
     }

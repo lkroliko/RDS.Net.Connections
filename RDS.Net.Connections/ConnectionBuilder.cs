@@ -4,9 +4,9 @@ using System.Text;
 using RDS.Logging;
 using RDS.Net.Connections.Pingers;
 using RDS.Net.Connections.Proxies;
-using RDS.Net.Connections.Readers;
+using RDS.Net.Connections.Senders;
 using RDS.Net.Connections.Wrappers;
-using RDS.Net.Connections.Writers;
+using RDS.Net.Connections.Receivers;
 
 namespace RDS.Net.Connections
 {
@@ -50,7 +50,7 @@ namespace RDS.Net.Connections
             if (_port < 0 || _port > 655350)
                 throw new ArgumentException("port", "Port must be in range 0 - 655350");
             ConnectionHandler connection = new ConnectionHandler(_logger, new DateTimeWrapper(), new ThreadWrapper(), new TcpClientProxy(_hostname, _port), _millisecondsReconnectTime);                     
-            Connection  connectionManager = new Connection(connection, new ReaderFactory(), new WriterFactory());
+            Connection  connectionManager = new Connection(connection, new ReceiverFactory(), new SenderFactory());
             if (_pinger != null)
                 connectionManager.Started += _pinger.Start;
             return connectionManager;
