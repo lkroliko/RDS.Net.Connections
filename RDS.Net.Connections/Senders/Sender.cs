@@ -1,4 +1,5 @@
-﻿using RDS.Net.Connections.Wrappers;
+﻿using RDS.Net.Connections.Abstractions;
+using RDS.Net.Connections.Wrappers;
 using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices.ComTypes;
@@ -16,7 +17,7 @@ namespace RDS.Net.Connections.Senders
             _connection = connection;
         }
 
-        public bool WriteLine(string value)
+        public bool SendLine(string value)
         {
             if (_connection.IsConnected == false)
                 _connection.Connect();

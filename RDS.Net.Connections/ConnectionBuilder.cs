@@ -7,6 +7,7 @@ using RDS.Net.Connections.Proxies;
 using RDS.Net.Connections.Senders;
 using RDS.Net.Connections.Wrappers;
 using RDS.Net.Connections.Receivers;
+using RDS.Net.Connections.Abstractions;
 
 namespace RDS.Net.Connections
 {

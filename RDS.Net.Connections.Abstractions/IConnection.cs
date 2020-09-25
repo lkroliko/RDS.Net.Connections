@@ -1,9 +1,7 @@
-﻿using RDS.Net.Connections.Senders;
-using RDS.Net.Connections.Receivers;
-using System;
+﻿using System;
 using System.Threading;
 
-namespace RDS.Net.Connections
+namespace RDS.Net.Connections.Abstractions
 {
     public interface IConnection
     {

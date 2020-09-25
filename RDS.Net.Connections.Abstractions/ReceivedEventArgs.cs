@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace RDS.Net.Connections.Receivers
+namespace RDS.Net.Connections.Abstractions
 {
     public class ReceivedEventArgs : EventArgs
     {

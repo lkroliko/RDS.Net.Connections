@@ -1,4 +1,6 @@
-﻿namespace RDS.Net.Connections.Receivers
+﻿using RDS.Net.Connections.Abstractions;
+
+namespace RDS.Net.Connections.Receivers
 {
     interface IReceiverFactory
     {

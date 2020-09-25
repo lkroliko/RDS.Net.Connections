@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using Xunit;
+using RDS.Net.Connections.Abstractions;
 
 namespace RDS.Net.Connections.Tests.Unit.PingerTests
 {
@@ -40,19 +41,19 @@ namespace RDS.Net.Connections.Tests.Unit.PingerTests
         }
 
         [Fact]
-        public void WhenCalledThenWriterWriteLineCalled()
+        public void WhenCalledThenWriterSendLineCalled()
         {
-            Mock.Get(_sender).Setup(w => w.WriteLine(_value)).Callback(() => _tokenSource.Cancel());
+            Mock.Get(_sender).Setup(w => w.SendLine(_value)).Callback(() => _tokenSource.Cancel());
 
             _pinger.Start(_connection, _args);
 
-            Mock.Get(_sender).Verify(w => w.WriteLine(_value), Times.Once);
+            Mock.Get(_sender).Verify(w => w.SendLine(_value), Times.Once);
         }
 
         [Fact]
         public void WhenCalledThenThreadSleepCalled()
         {
-            Mock.Get(_sender).Setup(w => w.WriteLine(_value)).Callback(() => _tokenSource.Cancel());
+            Mock.Get(_sender).Setup(w => w.SendLine(_value)).Callback(() => _tokenSource.Cancel());
 
             _pinger.Start(_connection, _args);
 

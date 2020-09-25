@@ -1,4 +1,5 @@
-﻿using RDS.Net.Connections.Wrappers;
+﻿using RDS.Net.Connections.Abstractions;
+using RDS.Net.Connections.Wrappers;
 using System;
 using System.Collections.Generic;
 using System.Text;

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace RDS.Net.Connections.Receivers
+namespace RDS.Net.Connections.Abstractions
 {
     public interface IReceiver
     {

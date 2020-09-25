@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\RDS.Net.Connections.Abstractions\RDS.Net.Connections.Abstractions.csproj" />
     <ProjectReference Include="..\RDS.Net.Connections\RDS.Net.Connections.csproj" />
   </ItemGroup>
 

@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Xunit;
+using RDS.Net.Connections.Abstractions;
 
 namespace RDS.Net.Connections.Tests.Unit.ConnectionTests
 {

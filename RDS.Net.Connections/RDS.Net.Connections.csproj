@@ -7,14 +7,18 @@
     <Authors>Łukasz Królikowski</Authors>
     <Copyright></Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <Version>1.0.9</Version>
-    <AssemblyVersion>1.0.9.0</AssemblyVersion>
+    <Version>1.0.10</Version>
+    <AssemblyVersion>1.0.10.0</AssemblyVersion>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageProjectUrl>https://github.com/lkroliko/RDS.Net.Connections</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="RDS.Logging" Version="1.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RDS.Net.Connections.Abstractions\RDS.Net.Connections.Abstractions.csproj" />
   </ItemGroup>
 
 </Project>

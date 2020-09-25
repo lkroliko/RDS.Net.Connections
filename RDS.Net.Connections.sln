@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RDS.Net.Connections", "RDS.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RDS.Net.Connections.Tests.Unit", "RDS.Net.Connections.Tests.Unit\RDS.Net.Connections.Tests.Unit.csproj", "{3B77F737-B867-4351-9D5A-A3DD2C2EBBFF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RDS.Net.Connections.Abstractions", "RDS.Net.Connections.Abstractions\RDS.Net.Connections.Abstractions.csproj", "{C7ABAAF4-5860-476A-BC8B-B730D4A99C65}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{3B77F737-B867-4351-9D5A-A3DD2C2EBBFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3B77F737-B867-4351-9D5A-A3DD2C2EBBFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3B77F737-B867-4351-9D5A-A3DD2C2EBBFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C7ABAAF4-5860-476A-BC8B-B730D4A99C65}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7ABAAF4-5860-476A-BC8B-B730D4A99C65}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7ABAAF4-5860-476A-BC8B-B730D4A99C65}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7ABAAF4-5860-476A-BC8B-B730D4A99C65}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

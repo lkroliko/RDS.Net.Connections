@@ -28,7 +28,7 @@ namespace RDS.Net.Connections.Tests.Unit.SenderTests
         [Fact]
         public void WhenConnectionNotConnectedThenConnectCalled()
         {
-            _sender.WriteLine("value");
+            _sender.SendLine("value");
 
             Mock.Get(_connection).Verify(c => c.Connect(), Times.Once);
         }
@@ -36,7 +36,7 @@ namespace RDS.Net.Connections.Tests.Unit.SenderTests
         [Fact]
         public void WhenCalledThenStreamWriterWriteLineCalled()
         {
-            _sender.WriteLine("value");
+            _sender.SendLine("value");
 
             Mock.Get(_streamWriter).Verify(s => s.WriteLine("value"), Times.Once);
         }
@@ -44,7 +44,7 @@ namespace RDS.Net.Connections.Tests.Unit.SenderTests
         [Fact]
         public void WhenNoExceptionThenTrueReturned()
         {
-            var result = _sender.WriteLine("value");
+            var result = _sender.SendLine("value");
 
             Assert.True(result);
         }
@@ -54,7 +54,7 @@ namespace RDS.Net.Connections.Tests.Unit.SenderTests
         {
             Mock.Get(_streamWriter).Setup(s => s.WriteLine(It.IsAny<string>())).Throws<Exception>();
 
-            var result = _sender.WriteLine("value");
+            var result = _sender.SendLine("value");
 
             Assert.False(result);
         }

@@ -1,4 +1,5 @@
-﻿using RDS.Net.Connections.Wrappers;
+﻿using RDS.Net.Connections.Abstractions;
+using RDS.Net.Connections.Wrappers;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -35,7 +36,7 @@ namespace RDS.Net.Connections.Pingers
         {
             while (token.IsCancellationRequested == false)
             {
-                _connection.Sender.WriteLine(_value);
+                _connection.Sender.SendLine(_value);
                 _thread.Sleep(_milisecoundsInterval);
             }
         }

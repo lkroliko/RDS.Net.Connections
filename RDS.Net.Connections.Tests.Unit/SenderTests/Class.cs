@@ -1,4 +1,5 @@
 ﻿using Moq;
+using RDS.Net.Connections.Abstractions;
 using RDS.Net.Connections.Senders;
 using System;
 using System.Collections.Generic;
