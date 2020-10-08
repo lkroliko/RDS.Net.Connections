@@ -17,7 +17,7 @@ namespace RDS.Net.Connections
         int _port;
         int _millisecondsReconnectTime = 30000;
         Pinger _pinger;
-        ILogger _logger;
+        ILogger _logger = LoggerBuilder.New.Build();
 
         public ConnectionBuilder SetDestination(string hostname, int port)
         {
