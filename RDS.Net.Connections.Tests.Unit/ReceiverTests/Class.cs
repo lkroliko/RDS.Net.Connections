@@ -1,4 +1,6 @@
 ﻿using Moq;
+using RDS.Logging;
+using RDS.Net.Connections.Abstractions;
 using RDS.Net.Connections.Receivers;
 using RDS.Net.Connections.Wrappers;
 using System;
@@ -12,11 +14,18 @@ namespace RDS.Net.Connections.Tests.Unit.ReceiverTests
     public class Class
     {
         IConnectionHandler _connection = Mock.Of<IConnectionHandler>();
+        ILogger _logger = Mock.Of<ILogger>();
 
         [Fact]
         public void ItExists()
         {
-            new Receiver(_connection);
+            new Receiver(_connection, _logger);
+        }
+
+        [Fact]
+        public void ItImplementIReceiver()
+        {
+            Assert.IsAssignableFrom<IReceiver>(new Receiver(_connection, _logger));
         }
     }
 }

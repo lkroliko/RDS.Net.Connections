@@ -1,4 +1,5 @@
-﻿using RDS.Net.Connections.Abstractions;
+﻿using RDS.Logging;
+using RDS.Net.Connections.Abstractions;
 using RDS.Net.Connections.Wrappers;
 using System;
 using System.Collections.Generic;
@@ -11,10 +12,12 @@ namespace RDS.Net.Connections.Senders
     {
         IConnectionHandler _connection;
         IStreamWriter _streamWriter;
+        ILogger _logger;
 
-        public Sender(IConnectionHandler connection)
+        public Sender(IConnectionHandler connection, ILogger logger)
         {
             _connection = connection;
+            _logger = logger;
         }
 
         public bool SendLine(string value)
@@ -27,6 +30,7 @@ namespace RDS.Net.Connections.Senders
             {
                 _streamWriter.WriteLine(value);
                 _streamWriter.Flush();
+                _logger.Trace($"Sended: {value}");
                 return true;
             }
             catch

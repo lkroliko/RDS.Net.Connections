@@ -1,5 +1,6 @@
 ﻿using Castle.DynamicProxy.Contributors;
 using Moq;
+using RDS.Logging;
 using RDS.Net.Connections.Receivers;
 using RDS.Net.Connections.Wrappers;
 using System;
@@ -15,13 +16,14 @@ namespace RDS.Net.Connections.Tests.Unit.ReceiverTests
     {
         IConnectionHandler _connection = Mock.Of<IConnectionHandler>();
         IStreamReader _streamReader = Mock.Of<IStreamReader>();
+        ILogger _logger = Mock.Of<ILogger>();
         Receiver _receiver;
         CancellationTokenSource _cancellationSource = new CancellationTokenSource();
 
         public Start()
         {
             Mock.Get(_connection).Setup(c => c.GetStreamReader()).Returns(_streamReader);
-            _receiver = new Receiver(_connection);
+            _receiver = new Receiver(_connection, _logger);
         }
 
         [Fact]

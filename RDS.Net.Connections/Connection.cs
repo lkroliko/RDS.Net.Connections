@@ -1,4 +1,5 @@
-﻿using RDS.Net.Connections.Abstractions;
+﻿using Microsoft.Extensions.Logging;
+using RDS.Net.Connections.Abstractions;
 using RDS.Net.Connections.Receivers;
 using RDS.Net.Connections.Senders;
 using System;

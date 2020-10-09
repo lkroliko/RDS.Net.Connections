@@ -51,7 +51,7 @@ namespace RDS.Net.Connections
             if (_port < 0 || _port > 655350)
                 throw new ArgumentException("port", "Port must be in range 0 - 655350");
             ConnectionHandler connection = new ConnectionHandler(_logger, new DateTimeWrapper(), new ThreadWrapper(), new TcpClientProxy(_hostname, _port), _millisecondsReconnectTime);                     
-            Connection  connectionManager = new Connection(connection, new ReceiverFactory(), new SenderFactory());
+            Connection  connectionManager = new Connection(connection, new ReceiverFactory(_logger), new SenderFactory(_logger));
             if (_pinger != null)
                 connectionManager.Started += _pinger.Start;
             return connectionManager;

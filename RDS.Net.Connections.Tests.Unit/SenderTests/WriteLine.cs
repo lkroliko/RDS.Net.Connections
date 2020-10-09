@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Xunit;
+using RDS.Logging;
 
 namespace RDS.Net.Connections.Tests.Unit.SenderTests
 {
@@ -13,6 +14,7 @@ namespace RDS.Net.Connections.Tests.Unit.SenderTests
     {
         IConnectionHandler _connection = Mock.Of<IConnectionHandler>();
         IStreamWriter _streamWriter = Mock.Of<IStreamWriter>();
+        ILogger _logger = Mock.Of<ILogger>();
         Sender _sender;
 
         public WriteLine()
@@ -22,7 +24,7 @@ namespace RDS.Net.Connections.Tests.Unit.SenderTests
                 Mock.Get(_connection).Setup(c => c.IsConnected).Returns(true);
             });
             Mock.Get(_connection).Setup(c => c.GetStreamWriter()).Returns(_streamWriter);
-            _sender = new Sender(_connection);
+            _sender = new Sender(_connection, _logger);
         }
 
         [Fact]
@@ -57,6 +59,14 @@ namespace RDS.Net.Connections.Tests.Unit.SenderTests
             var result = _sender.SendLine("value");
 
             Assert.False(result);
+        }
+
+        [Fact]
+        public void WhenCalledThenLoggerCalled()
+        {
+            _sender.SendLine("value");
+
+            Mock.Get(_logger).Verify(l => l.Trace("Sended: value"), Times.Once);
         }
     }
 }

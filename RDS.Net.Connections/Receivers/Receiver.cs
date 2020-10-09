@@ -1,4 +1,5 @@
-﻿using RDS.Net.Connections.Abstractions;
+﻿using RDS.Logging;
+using RDS.Net.Connections.Abstractions;
 using RDS.Net.Connections.Wrappers;
 using System;
 using System.Collections.Generic;
@@ -12,10 +13,12 @@ namespace RDS.Net.Connections.Receivers
         public event EventHandler<ReceivedEventArgs> Received = delegate { };
         internal virtual void OnReaded(ReceivedEventArgs args) { Received.Invoke(this, args); }
         IConnectionHandler _connection;
+        ILogger _logger;
 
-        internal Receiver(IConnectionHandler connection)
+        internal Receiver(IConnectionHandler connection, ILogger logger)
         {
             _connection = connection;
+            _logger = logger;
         }
 
         public void Start(CancellationToken token)
@@ -26,6 +29,7 @@ namespace RDS.Net.Connections.Receivers
                 try
                 {
                     string value = streamReader.ReadLine();
+                    _logger.Trace($"Received: {value}");
                     ReceivedEventArgs args = new ReceivedEventArgs(value);
                     OnReaded(args);
                 }
